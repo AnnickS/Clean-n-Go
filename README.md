@@ -1,0 +1,7 @@
+# CS331 Project 2 Clean n Go
+
+Clean n Go
+
+Employees: Nikita, Ahmen, Annick, Andre
+
+A clothing cleaning company database

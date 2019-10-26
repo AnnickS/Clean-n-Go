@@ -2,6 +2,7 @@
 
 Clean n Go
 
-Employees: Nikita, Ahmen, Annick, Andre
+Employees: Nikita, Ahmed, Annick, Andre
 
 A clothing cleaning company database
+

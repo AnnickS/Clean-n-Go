@@ -34,8 +34,8 @@ Check out the code standards and git crash course below.
   1. install git https://git-scm.com/
   2. clone this repository
      - This can be done with the terminal in two ways:
-       a) `git clone https://gitlab.com/AnnickS1/cs331-project-2-clean-n-go.git`
-       b) `git clone https://<your username here>@gitlab.com/AnnickS1/cs331-project-2-clean-n-go.git`
+       + `git clone https://gitlab.com/AnnickS1/cs331-project-2-clean-n-go.git`
+       + `git clone https://<your username here>@gitlab.com/AnnickS1/cs331-project-2-clean-n-go.git`
           Where <your username here> is replaced by *you* (e.g. https//bob@github.com/bobrepo/bobproject.git).
   3. type `git status`
      This shows your current branch (as well as any changes that have been
@@ -70,9 +70,11 @@ Check out the code standards and git crash course below.
      `git push`
   8. If you've completed a feature, you can add it
      to the master branch.
-     `git checkout master`
-     `git status`
-     `git merge <completed feature branch>`
+     ```
+     git checkout master
+     git status
+     git merge <completed feature branch>
+     ```
      which adds all your work to the master branch
      then, upload the master branch too.
      `git push`

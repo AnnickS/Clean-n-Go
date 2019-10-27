@@ -125,9 +125,13 @@ CREATE TABLE provides(
    the cleaning company and a supplier. */
 CREATE TABLE purchased_from(
        transactionID        MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       iID                  MEDIUMINT UNSIGNED NOT NULL,
+       suppID               MEDIUMINT UNSIGNED NOT NULL,
        transactionDate      DATE,
        deliveryDate         DATE,
-       qty                  MEDIUMINT
+       qty                  MEDIUMINT,
+       FOREIGN KEY (iID) REFERENCES item(iID),
+       FOREIGN KEY (suppID) REFERENCES supplier(suppID)
        );
 
 /*
@@ -135,13 +139,11 @@ CREATE TABLE purchased_from(
     from each supplier.
 */
 CREATE TABLE offers(
+       iID           MEDIUMINT UNSIGNED NOT NULL,
        suppID           MEDIUMINT UNSIGNED NOT NULL,
-       servID           MEDIUMINT UNSIGNED NOT NULL,
-       eID              MEDIUMINT UNSIGNED NOT NULL,
-       PRIMARY KEY (suppID, servID, eID),
+       PRIMARY KEY (iID, suppID),
        FOREIGN KEY (suppID) REFERENCES supplier(suppID),
-       FOREIGN KEY (servID) REFERENCES service(servID),
-       FOREIGN KEY (eID) REFERENCES employee(eID)
+       FOREIGN KEY (iID) REFERENCES item(iID)
        );
 
 /* tracks the items and amounts used

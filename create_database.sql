@@ -22,7 +22,10 @@ CREATE TABLE customer(
        stateInits   CHAR(2),
        zip          CHAR(5),
        email        VARCHAR(255),
-       phoneNum     VARCHAR(20)
+       phoneNum     VARCHAR(20),
+       CONSTRAINT contactInfoUnique UNIQUE (phoneNum, email),
+       INDEX address (street, city, stateInits, zip),
+       INDEX cName (fName, lName)
        );
        
 
@@ -54,7 +57,8 @@ CREATE TABLE employee(
        street       VARCHAR(255),
        city         VARCHAR(100),
        stateInits   CHAR(2),
-       zip          CHAR(5)
+       zip          CHAR(5),
+       INDEX eName (fName, minit, lName)
        );
 
 /* Primary key max > 8 million
@@ -68,7 +72,8 @@ CREATE TABLE supplier(
        street       VARCHAR(255),
        city         VARCHAR(100),
        stateInits   CHAR(2),
-       zip          CHAR(5)
+       zip          CHAR(5),
+       INDEX address (street, city, stateInits, zip)       
        );
 
 /* purchases > $1mil should consult board of directors. */
@@ -108,7 +113,8 @@ CREATE TABLE equipment(
        brand        VARCHAR(20),
        startDate    DATE NOT NULL,
        removeDate   DATE NOT NULL,
-       FOREIGN KEY (iID) REFERENCES item(iID)
+       FOREIGN KEY (iID) REFERENCES item(iID),
+       INDEX maintenanceSchedule (startDate, removeDate)
        );
        
 CREATE TABLE provides(

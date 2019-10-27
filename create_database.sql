@@ -105,4 +105,28 @@ CREATE TABLE purchased_from(
        deliveryDate         DATE,
        qty                  MEDIUMINT
        );
+<<<<<<< Updated upstream
        
+=======
+
+CREATE TABLE offers(
+       suppID           MEDIUMINT UNSIGNED NOT NULL,
+       servID           MEDIUMINT UNSIGNED NOT NULL,
+       eID              MEDIUMINT UNSIGNED NOT NULL,
+       PRIMARY KEY (suppID, servID, eID),
+       FOREIGN KEY (suppID) REFERENCES supplier(suppID),
+       FOREIGN KEY (servID) REFERENCES service(servID),
+       FOREIGN KEY (eID) REFERENCES employee(eID)
+       );
+
+/* tracks the items and amounts used
+   during a service. */
+CREATE TABLE uses(
+       servID   MEDIUMINT UNSIGNED NOT NULL,
+       iID   MEDIUMINT UNSIGNED NOT NULL,
+       qty      MEDIUMINT UNSIGNED,
+       PRIMARY KEY (servID, consID),
+       FOREIGN KEY servID REFERENCES service(servID),
+       FOREIGN KEY iID REFERENCES item(iID)
+);
+>>>>>>> Stashed changes

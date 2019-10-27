@@ -38,15 +38,19 @@ Check out the code standards and git crash course below.
        + `git clone https://<your username here>@gitlab.com/AnnickS1/cs331-project-2-clean-n-go.git`
           Where <your username here> is replaced by *you* (e.g. https//bob@github.com/bobrepo/bobproject.git).
   3. type `git status`
+
      This shows your current branch (as well as any changes that have been
      made).
   4. Please do not make direct changes to the master branch. 
      This is difficult to fix. Instead, make a new one:
+
      `git branch <new branch name>`
   5. Switch to the new branch: `git checkout <new branch>`
   6. Write some code, change some files.
      Now take a look at how git recognizes this info.
+
      `git status`
+
      This will show some important information:
      + what branch you are currently working in
      + what files have been changed so far *and*
@@ -67,6 +71,7 @@ Check out the code standards and git crash course below.
      any sort.
   7. Upload your branch to the cloud repository to
      save your work.
+
      `git push`
   8. If you've completed a feature, you can add it
      to the master branch.
@@ -77,4 +82,5 @@ Check out the code standards and git crash course below.
      ```
      which adds all your work to the master branch
      then, upload the master branch too.
+
      `git push`

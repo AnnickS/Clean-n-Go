@@ -36,7 +36,7 @@ Check out the code standards and git crash course below.
      - This can be done with the terminal in two ways:
        + `git clone https://gitlab.com/AnnickS1/cs331-project-2-clean-n-go.git`
        + `git clone https://<your username here>@gitlab.com/AnnickS1/cs331-project-2-clean-n-go.git`
-          Where <your username here> is replaced by *you* (e.g. https//bob@github.com/bobrepo/bobproject.git).
+          Where **<your username here>** is replaced by *you* (e.g. https//bob@github.com/bobrepo/bobproject.git).
   3. type `git status`
 
      This shows your current branch (as well as any changes that have been

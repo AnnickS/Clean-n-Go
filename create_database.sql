@@ -8,56 +8,69 @@
     cleaning shop.
 */
 
-CREATE DATABASE clean;
+CREATE DATABASE IF NOT EXISTS clean;
 
 USE clean;
 
+/* zip and phone num need review */
 CREATE TABLE customer(
-       custID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, --max > 8mil.
+       custID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
        fName        VARCHAR(255) NOT NULL,
        lName        VARCHAR(255),
        street       VARCHAR(255),
        city         VARCHAR(255),
        stateInits   CHAR(2),
-       zip          CHAR(5), --needs review
+       zip          CHAR(5),
        email        VARCHAR(255),
-       phoneNum     VARCHAR(20) --needs review
+       phoneNum     VARCHAR(20)
        );
        
 
 /* service times can vary upon fulfillment.
-   Start and end times are stored in 'provides'. */
+   Start and end times are stored in 'provides'.
+   description must be brief.
+   rate assumes a worst case of $50k/hr.
+ */
 CREATE TABLE service(
-       servID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, --max > 8mil.
+       servID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
        sName        VARCHAR(255) NOT NULL,
-       description  TINYTEXT, --brief description.
-       rate         DECIMAL(7, 2) UNSIGNED -- assume worst case of $50k/hr.
+       description  TINYTEXT,
+       rate         DECIMAL(7, 2) UNSIGNED
        );
 
+/*
+    Primary key max > 8 million.
+    Longest city name found was 89 characters
+    after some short research.
+*/
 CREATE TABLE employee(
-       eID          MEDIUMINT NOT NULL AUTO_INCREMENT PRIMARY KEY, --max > 8mil.
+       eID          MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
        gender       CHAR(1),
-       jobTitle     VARCHAR(255), --position is a keyword
+       jobTitle     VARCHAR(255),
        dateHired    DATE,
        fName        VARCHAR(255),
        minit        CHAR(1),
        lName        VARCHAR(255),
        street       VARCHAR(255),
-       city         VARCHAR(100), --longest name found was 89 chars.
+       city         VARCHAR(100),
        stateInits   CHAR(2),
        zip          CHAR(5)
        );
-       
+
+/* Primary key max > 8 million
+   current balance assumes no amounts more than $1bil
+*/
 CREATE TABLE supplier(
-       suppID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, --max > 8mil.
+       suppID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
        sName        VARCHAR(255) NOT NULL,
        phoneNum     VARCHAR(20),
-       currBalance  DECIMAL(11, 2), --we do not expect deals above 1bil.
+       currBalance  DECIMAL(11, 2),
        street       VARCHAR(255),
-       city         VARCHAR(100), --longest name found was 89 chars.
+       city         VARCHAR(100),
        stateInits   CHAR(2),
        zip          CHAR(5)
        );
+
 /* purchases > $1mil should consult board of directors. */
 CREATE TABLE item(
        iID              MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -66,26 +79,35 @@ CREATE TABLE item(
        description      TINYTEXT
        );
 
-/* americans eat 2billion cookies a year.
-   At least that much soap should be accounted for. */
-CREATE TABLE consumable( --aka cleaning supply
+/* aka cleaning supply
+   currInv represents qty
+   americans eat 2billion cookies a year.
+   At least that much soap should be accounted for
+   within for safetystocks.
+   usage is a sql keyword
+ */
+CREATE TABLE consumable(
        consID            MEDIUMINT UNSIGNED NOT NULL,
-       currInv           MEDIUMINT UNSIGNED NOT NULL, -- AKA Qty.
-       safetyStockLvl    MEDIUMINT UNSIGNED, --SMALLINT insufficient.
-       cUsage            TINYTEXT, --usage is a keyword. brief description.
+       currInv           MEDIUMINT UNSIGNED NOT NULL,
+       safetyStockLvl    MEDIUMINT UNSIGNED,
+       cUsage            TINYTEXT,
        PRIMARY KEY (consID),
        FOREIGN KEY (consID) REFERENCES item(iID)
        );
 
 /* stores equipment in use as well as their
-   maintenance schedules. */
+   maintenance schedules. 
+   type name needs review.
+   start and remove dates are REQUIRED
+   because of COMPANY POLICY.
+*/
 CREATE TABLE equipment(
        eID          MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
        iID          MEDIUMINT UNSIGNED NOT NULL,
-       eType        VARCHAR(20), -- needs review
+       eType        VARCHAR(20),
        brand        VARCHAR(20),
        startDate    DATE NOT NULL,
-       removeDate   DATE NOT NULL, -- COMPANY POLICY
+       removeDate   DATE NOT NULL,
        FOREIGN KEY (iID) REFERENCES item(iID)
        );
        
@@ -99,16 +121,19 @@ CREATE TABLE provides(
        FOREIGN KEY (eID) REFERENCES employee(eID)
        );
 
+/* A purchase manifest of each transaction between
+   the cleaning company and a supplier. */
 CREATE TABLE purchased_from(
-       transactionID        MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT,
+       transactionID        MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
        transactionDate      DATE,
        deliveryDate         DATE,
        qty                  MEDIUMINT
        );
-<<<<<<< Updated upstream
-       
-=======
 
+/*
+    Tracks items available for purchase
+    from each supplier.
+*/
 CREATE TABLE offers(
        suppID           MEDIUMINT UNSIGNED NOT NULL,
        servID           MEDIUMINT UNSIGNED NOT NULL,
@@ -123,10 +148,9 @@ CREATE TABLE offers(
    during a service. */
 CREATE TABLE uses(
        servID   MEDIUMINT UNSIGNED NOT NULL,
-       iID   MEDIUMINT UNSIGNED NOT NULL,
+       iID      MEDIUMINT UNSIGNED NOT NULL,
        qty      MEDIUMINT UNSIGNED,
-       PRIMARY KEY (servID, consID),
-       FOREIGN KEY servID REFERENCES service(servID),
-       FOREIGN KEY iID REFERENCES item(iID)
+       PRIMARY KEY (servID, iID),
+       FOREIGN KEY (servID) REFERENCES service(servID),
+       FOREIGN KEY (iID) REFERENCES item(iID)
 );
->>>>>>> Stashed changes

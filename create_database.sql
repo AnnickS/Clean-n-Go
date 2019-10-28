@@ -1,4 +1,3 @@
-
 /*
     @author: Bellevue College CS 331 Group 7
     @email: nikitamog@bellevuecollege.edu 
@@ -41,7 +40,8 @@ CREATE TABLE customer(
    arbitrarily graded integer scale.
  */
 CREATE TABLE service(
-       servID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,        sName        VARCHAR(255) NOT NULL,
+       servID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+       sName        VARCHAR(255) NOT NULL,
        description  TINYTEXT,
        rate         DECIMAL(7, 2) UNSIGNED,
        satRating    TINYINT,
@@ -69,6 +69,14 @@ CREATE TABLE employee(
        INDEX eName (fName, minit, lName),
        INDEX address (street, city, stateInits, zip)
        );
+       
+CREATE TABLE employee_schedule(
+        eID         MEDIUMINT,
+        date         DATE,
+        hours       DECIMAL(2,2),
+        FOREIGN KEY (eID) REFERENCES employee(eID),
+        PRIMARY KEY (eID, date)
+        );
 
 /* Primary key max > 8 million
    current balance assumes no amounts more than $1bil
@@ -125,6 +133,16 @@ CREATE TABLE equipment(
        FOREIGN KEY (iID) REFERENCES item(iID),
        INDEX maintenanceSchedule (installationDate, removeDate)
        );
+
+CREATE TABLE equipment_maintenance(
+        iID         MEDIUMINT UNSIGNED,
+        eID         MEDIUMINT UNSIGNED,
+        date        DATE,
+        cost        DECIMAL(7,2),
+        FOREIGN KEY (iID) REFERENCES item(iID),
+        FOREIGN KEY (eID) REFERENCES equipment(eID),
+        PRIMARY KEY (iID, eID, date)
+        );
        
 CREATE TABLE provides(
        custID       MEDIUMINT UNSIGNED NOT NULL,

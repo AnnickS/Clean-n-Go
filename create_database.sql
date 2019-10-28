@@ -12,7 +12,9 @@ CREATE DATABASE IF NOT EXISTS clean;
 
 USE clean;
 
-/* zip and phone num need review */
+/* zip and phone num need review 
+   foreign nations can be costumers.
+   balance limits adjusted accordingly.*/
 CREATE TABLE customer(
        custID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
        fName        VARCHAR(255) NOT NULL,
@@ -23,6 +25,8 @@ CREATE TABLE customer(
        zip          CHAR(5),
        email        VARCHAR(255),
        phoneNum     VARCHAR(20),
+       currBalance  DECIMAL(14,2),
+       creditCard   CHAR(16),
        CONSTRAINT contactInfoUnique UNIQUE (phoneNum, email),
        INDEX address (street, city, stateInits, zip),
        INDEX cName (fName, lName)
@@ -33,12 +37,16 @@ CREATE TABLE customer(
    Start and end times are stored in 'provides'.
    description must be brief.
    rate assumes a worst case of $50k/hr.
+   satisfaction rating is on an
+   arbitrarily graded integer scale.
  */
 CREATE TABLE service(
-       servID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-       sName        VARCHAR(255) NOT NULL,
+       servID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,        sName        VARCHAR(255) NOT NULL,
        description  TINYTEXT,
-       rate         DECIMAL(7, 2) UNSIGNED
+       rate         DECIMAL(7, 2) UNSIGNED,
+       satRating    TINYINT,
+       startTime    TIMESTAMP,
+       endTime      TIMESTAMP
        );
 
 /*
@@ -58,7 +66,8 @@ CREATE TABLE employee(
        city         VARCHAR(100),
        stateInits   CHAR(2),
        zip          CHAR(5),
-       INDEX eName (fName, minit, lName)
+       INDEX eName (fName, minit, lName),
+       INDEX address (street, city, stateInits, zip)
        );
 
 /* Primary key max > 8 million
@@ -111,10 +120,10 @@ CREATE TABLE equipment(
        iID          MEDIUMINT UNSIGNED NOT NULL,
        eType        VARCHAR(20),
        brand        VARCHAR(20),
-       startDate    DATE NOT NULL,
+       installationDate    DATE NOT NULL,
        removeDate   DATE NOT NULL,
        FOREIGN KEY (iID) REFERENCES item(iID),
-       INDEX maintenanceSchedule (startDate, removeDate)
+       INDEX maintenanceSchedule (installationDate, removeDate)
        );
        
 CREATE TABLE provides(
@@ -162,3 +171,22 @@ CREATE TABLE uses(
        FOREIGN KEY (servID) REFERENCES service(servID),
        FOREIGN KEY (iID) REFERENCES item(iID)
 );
+
+/* a multi-valued attribute to track
+   the date and cost of each time
+   a piece of equipment is maintained. */
+CREATE TABLE maintenance_log (
+       eID                   MEDIUMINT UNSIGNED NOT NULL,
+       mDate                 DATE,
+       cost                  DECIMAL(11,2),
+       PRIMARY KEY (eID, mDate),
+       FOREIGN KEY (eID) REFERENCES equipment(eID)
+       );
+
+CREATE TABLE employee_schedule (
+       eID            MEDIUMINT UNSIGNED NOT NULL,
+       sDate          DATE NOT NULL,
+       hours          DECIMAL(4,2) NOT NULL,
+       PRIMARY KEY (eID, sDate),
+       FOREIGN KEY (eID) REFERENCES employee(eID)
+       );

@@ -7,6 +7,9 @@
     cleaning shop.
 */
 
+DROP TABLE employee_schedule;
+DROP TABLE maintenance_log;
+DROP TABLE customer;
 CREATE DATABASE IF NOT EXISTS clean;
 
 USE clean;
@@ -46,7 +49,7 @@ CREATE TABLE service(
        rate         DECIMAL(7, 2) UNSIGNED,
        satRating    TINYINT,
        startTime    TIMESTAMP,
-       endTime      TIMESTAMP
+       endTime      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
        );
 
 /*

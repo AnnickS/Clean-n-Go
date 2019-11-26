@@ -45,8 +45,8 @@ CREATE TABLE service(
        description  TINYTEXT,
        rate         DECIMAL(7, 2) UNSIGNED,
        satRating    TINYINT,
-       startTime    TIMESTAMP,
-       endTime      TIMESTAMP
+	   startTime    TIMESTAMP,
+       endTime      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
        );
 
 /*
@@ -70,14 +70,6 @@ CREATE TABLE employee(
        INDEX address (street, city, stateInits, zip)
        );
        
-CREATE TABLE employee_schedule(
-        eID         MEDIUMINT,
-        date         DATE,
-        hours       DECIMAL(2,2),
-        FOREIGN KEY (eID) REFERENCES employee(eID),
-        PRIMARY KEY (eID, date)
-        );
-
 /* Primary key max > 8 million
    current balance assumes no amounts more than $1bil
 */
@@ -133,25 +125,15 @@ CREATE TABLE equipment(
        FOREIGN KEY (iID) REFERENCES item(iID),
        INDEX maintenanceSchedule (installationDate, removeDate)
        );
-
-CREATE TABLE equipment_maintenance(
-        iID         MEDIUMINT UNSIGNED,
-        eID         MEDIUMINT UNSIGNED,
-        date        DATE,
-        cost        DECIMAL(7,2),
-        FOREIGN KEY (iID) REFERENCES item(iID),
-        FOREIGN KEY (eID) REFERENCES equipment(eID),
-        PRIMARY KEY (iID, eID, date)
-        );
        
 CREATE TABLE provides(
        custID       MEDIUMINT UNSIGNED NOT NULL,
        servID       MEDIUMINT UNSIGNED NOT NULL,
        eID          MEDIUMINT UNSIGNED NOT NULL,
-       PRIMARY KEY (custID, servID, eID),
        FOREIGN KEY (custID) REFERENCES customer(custID),
        FOREIGN KEY (servID) REFERENCES service(servID),
-       FOREIGN KEY (eID) REFERENCES employee(eID)
+       FOREIGN KEY (eID) REFERENCES employee(eID),
+       PRIMARY KEY (custID, servID, eID)
        );
 
 /* A purchase manifest of each transaction between
@@ -193,12 +175,14 @@ CREATE TABLE uses(
 /* a multi-valued attribute to track
    the date and cost of each time
    a piece of equipment is maintained. */
-CREATE TABLE maintenance_log (
+CREATE TABLE equipment_maintenance (
        eID                   MEDIUMINT UNSIGNED NOT NULL,
+       iID              MEDIUMINT UNSIGNED,
        mDate                 DATE,
        cost                  DECIMAL(11,2),
-       PRIMARY KEY (eID, mDate),
-       FOREIGN KEY (eID) REFERENCES equipment(eID)
+       PRIMARY KEY (eID, iID, mDate),
+       FOREIGN KEY (eID) REFERENCES equipment(eID),
+       FOREIGN KEY (iID) REFERENCES item(iID)
        );
 
 CREATE TABLE employee_schedule (
@@ -208,3 +192,26 @@ CREATE TABLE employee_schedule (
        PRIMARY KEY (eID, sDate),
        FOREIGN KEY (eID) REFERENCES employee(eID)
        );
+
+
+
+/*	The following statements can be used 
+	in that order to remove tables without 
+    violating key constraints. 
+
+DROP table employee_schedule; 
+DROP table equipment_maintenance; 
+DROP table uses;     
+DROP table provides;
+DROP table purchased_from;
+DROP table offers;
+DROP table customer;
+DROP table employee;
+DROP table supplier;
+DROP table consumable;
+DROP table equipment;
+DROP table service;
+DROP table item;
+
+Left as comments to not be implemented*/ 
+

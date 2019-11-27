@@ -15,7 +15,7 @@ USE clean;
    foreign nations can be costumers.
    balance limits adjusted accordingly.*/
 CREATE TABLE customer(
-       custID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       custID       MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY,
        fName        VARCHAR(255) NOT NULL,
        lName        VARCHAR(255),
        street       VARCHAR(255),
@@ -40,7 +40,7 @@ CREATE TABLE customer(
    arbitrarily graded integer scale.
  */
 CREATE TABLE service(
-       servID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+       servID       MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY, 
        sName        VARCHAR(255) NOT NULL,
        description  TINYTEXT,
        rate         DECIMAL(7, 2) UNSIGNED,
@@ -55,7 +55,7 @@ CREATE TABLE service(
     after some short research.
 */
 CREATE TABLE employee(
-       eID          MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       eID          MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY,
        gender       CHAR(1),
        jobTitle     VARCHAR(255),
        dateHired    DATE,
@@ -74,7 +74,7 @@ CREATE TABLE employee(
    current balance assumes no amounts more than $1bil
 */
 CREATE TABLE supplier(
-       suppID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       suppID       MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY,
        sName        VARCHAR(255) NOT NULL,
        phoneNum     VARCHAR(20),
        currBalance  DECIMAL(11, 2),
@@ -87,7 +87,7 @@ CREATE TABLE supplier(
 
 /* purchases > $1mil should consult board of directors. */
 CREATE TABLE item(
-       iID              MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       iID              MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY,
        purchasePrice    DECIMAL(9, 2),
        iName            VARCHAR(255) NOT NULL,
        description      TINYTEXT
@@ -116,7 +116,7 @@ CREATE TABLE consumable(
    because of COMPANY POLICY.
 */
 CREATE TABLE equipment(
-       eID          MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       eID          MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY,
        iID          MEDIUMINT UNSIGNED NOT NULL,
        eType        VARCHAR(20),
        brand        VARCHAR(20),
@@ -139,7 +139,7 @@ CREATE TABLE provides(
 /* A purchase manifest of each transaction between
    the cleaning company and a supplier. */
 CREATE TABLE purchased_from(
-       transactionID        MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+       transactionID        MEDIUMINT UNSIGNED NOT NULL PRIMARY KEY,
        iID                  MEDIUMINT UNSIGNED NOT NULL,
        suppID               MEDIUMINT UNSIGNED NOT NULL,
        transactionDate      DATE,
@@ -197,7 +197,7 @@ CREATE TABLE employee_schedule (
 
 /*	The following statements can be used 
 	in that order to remove tables without 
-    violating key constraints. 
+    violating key constraints. */
 
 DROP table employee_schedule; 
 DROP table equipment_maintenance; 
@@ -213,5 +213,5 @@ DROP table equipment;
 DROP table service;
 DROP table item;
 
-Left as comments to not be implemented*/ 
+/*Left as comments to not be implemented*/
 

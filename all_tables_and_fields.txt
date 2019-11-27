@@ -1,5 +1,3 @@
-"12345678", "John", "Smith", 
-
 CREATE TABLE customer(
        custID       MEDIUMINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
        fName        VARCHAR(255) NOT NULL,

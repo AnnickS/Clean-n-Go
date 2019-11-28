@@ -7,10 +7,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class CleanAndGo {
-
+public class mainMenu {
+	
 	public static void main(String args[]) {
+		
         Connection conn = null;
+        
+        equipmentAndSuppliesMenu esMenu;
+    	customersAndServicesMenu csMenu;
+    	employeesMenu eMenu;
+    	updatesMenu uMenu;
+        
         try {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -19,6 +26,12 @@ public class CleanAndGo {
             user = "student"; //readEntry("userid : ");
             pass = "password"; //readEntry("password: ");
             conn = DriverManager.getConnection(url, user, pass);
+            
+            esMenu = new equipmentAndSuppliesMenu(conn);
+            csMenu = new customersAndServicesMenu(conn);
+            eMenu = new employeesMenu(conn);
+            uMenu = new updatesMenu(conn);
+            
 
             boolean done = false;
             do {
@@ -27,24 +40,26 @@ public class CleanAndGo {
                 System.out.flush();
                 String ch = readLine();
                 System.out.println();
+                
+                if(ch.length() > 0) {
                 switch (ch.charAt(0)) {
                     case '1': 
-                    	Equipment_Supplies(conn);
+                    	esMenu.menu();
                         break;
                     case '2':
-                        Customer_Services(conn);
+                    	csMenu.menu();
                         break;
                     case '3':
-                        Employees(conn);
+                    	eMenu.menu();
                         break;                  
                     case '4':
-                        Updates(conn);
+                    	uMenu.menu();
                         break;
                     case '5': done = true;
                         break;
                     default:
                         System.out.println(" Not a valid option ");
-                } //switch
+                }} //switch
             } while (!done);
 
 
@@ -52,8 +67,6 @@ public class CleanAndGo {
             System.out.println("Could not load the driver");
         } catch (SQLException ex) {
             System.out.println(ex);
-        } catch (IOException e) {
-            e.printStackTrace();
         } finally {
             if (conn != null) {
                 try {
@@ -168,6 +181,7 @@ public class CleanAndGo {
                     "IOException was thrown");
             System.exit(1);
         }
+        
         return line;
     }
 
@@ -182,9 +196,6 @@ public class CleanAndGo {
         System.out.println("                                    3. Employees                                     ");
         System.out.println("                                     4. Updates                                      ");
         System.out.println("                                      5. Quit                                        ");
-        System.out.println("Type in your option: 4                                                               ");
-        System.out.println("Enter User ID: raj                                                                   ");
-        System.out.println("Enter password: raj                                                                  ");
         System.out.println("*************************************************************************************");
         System.out.println();
     }

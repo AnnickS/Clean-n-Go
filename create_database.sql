@@ -7,10 +7,6 @@
     cleaning shop.
 */
 
-CREATE DATABASE IF NOT EXISTS clean;
-
-USE clean;
-
 /* zip and phone num need review 
    foreign nations can be costumers.
    balance limits adjusted accordingly.*/

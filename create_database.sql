@@ -7,9 +7,9 @@
     cleaning shop.
 */
 
-CREATE DATABASE IF NOT EXISTS clean;
+CREATE DATABASE IF NOT EXISTS Project2;
 
-USE clean;
+USE Project2;
 
 /* zip and phone num need review 
    foreign nations can be costumers.

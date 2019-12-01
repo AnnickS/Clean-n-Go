@@ -21,15 +21,7 @@ public class customersAndServicesMenu {
 	        
 	        if(ch.length() > 0) {
 	        switch (ch.charAt(0)) {
-            case '1': 
-                break;
-            case '2':
-                break;
-            case '3':
-                break;                  
-            case '4':
-                break;
-            case '5': inMenu = false;
+            case '1': inMenu = false;
                 break;
             default:
                 System.out.println(" Not a valid option ");

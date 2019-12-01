@@ -2,16 +2,28 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class updatesMenu {
-	Connection conn = null;
+    private String username;
+    private String password;
+    private InsertMenu insert;
+    private DeleteMenu delete;
+    private UpdateMenu update;
 	
-	public updatesMenu(Connection Conn) {
-		conn = Conn;
+	public updatesMenu(Connection Conn, String Username, String Password) {
+        username = Username;
+        password = Password;
+        insert = new InsertMenu(Conn);
+        delete = new DeleteMenu(Conn);
+        update = new UpdateMenu(Conn);
 	}
 	
-	public void menu() {
-		Boolean inMenu = true;
+	public void menu() throws SQLException {
+        Boolean inMenu;
+
+        inMenu = securityPrompt();
+        
 		while(inMenu) {
 			printMenu();
 			System.out.print("Type in your option: ");
@@ -21,19 +33,17 @@ public class updatesMenu {
 	        
 	        if(ch.length() > 0) {
 	        switch (ch.charAt(0)) {
-            case '1': 
+            case '1': insert.menu();
                 break;
-            case '2':
+            case '2': delete.menu();
                 break;
-            case '3':
-                break;                  
-            case '4':
+            case '3': update.menu();
                 break;
-            case '5': inMenu = false;
+            case '4': inMenu = false;
                 break;
             default:
                 System.out.println(" Not a valid option ");
-	        }} //switch
+	        }}
 		}
 	}
 	
@@ -52,6 +62,57 @@ public class updatesMenu {
         
         return line;
     }
+
+    private Boolean securityPrompt(){
+        Boolean inSecurity = true;
+        Boolean correct = false;
+
+        while(inSecurity) {
+			printSecurityPrompt();
+			System.out.print("Username: ");
+            System.out.flush();
+			String ch = readLine();
+            System.out.println();
+
+	        if(ch.length() > 0) {
+	        	
+                if(ch.length() == 1 && ch.charAt(0) == '1'){
+                    inSecurity = false;
+                    correct = false;
+                }
+
+                if(ch.equals(username)){
+                    System.out.print("Password: ");
+                    System.out.flush();
+                    ch = readLine();
+                    System.out.println();
+
+                    if(ch.length() == 1 && ch.charAt(0) == '1'){
+                        inSecurity = false;
+                        correct = false;
+                    } else if(ch.equals(password)){
+                        System.out.println("Valid Login");
+                        inSecurity = false;
+                        correct = true;
+                    } else System.out.println("Invalid Login");
+                } else System.out.println("Invalid Username");
+	        }
+        }
+        
+        return correct;
+    }
+
+    private void printSecurityPrompt(){
+        System.out.println("*************************************************************************************");
+        System.out.println("                                *******************                                  ");
+        System.out.println("                             Welcome to Clean-and-Go Shop                            ");
+        System.out.println("                                       Updates                                       ");
+        System.out.println("*************************************************************************************");
+        System.out.println("                          Please enter Username and Password                         ");
+        System.out.println("                                Or enter 1 to go Back                                ");
+        System.out.println("*************************************************************************************");
+        System.out.println();
+    }
     
     private void printMenu() {
         System.out.println("*************************************************************************************");
@@ -59,16 +120,10 @@ public class updatesMenu {
         System.out.println("                             Welcome to Clean-and-Go Shop                            ");
         System.out.println("                                       Updates                                       ");
         System.out.println("*************************************************************************************");
-        System.out.println("                             There is nothing to see here                            ");
-        System.out.println("                                  Press 1 to go back                                 ");
+        System.out.println("                             1. Insert New Data                                      ");
+        System.out.println("                             2. Delete Data                                          ");
+        System.out.println("                             3. Update Current Data                                  ");
+        System.out.println("                             4. Go Back                                              ");
         System.out.println("*************************************************************************************");
     }
-    
-    /*//a function that does something with conn
-    private void function() {
-    	try {
-    	}catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 }

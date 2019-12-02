@@ -38,6 +38,10 @@ LOAD DATA LOCAL INFILE "C://CS331//cs331-project-2-clean-n-go//offers_data.dat"
 INTO TABLE offers
 FIELDS ENCLOSED BY "\"" TERMINATED BY ","
 ;
+LOAD DATA LOCAL INFILE "C://CS331//cs331-project-2-clean-n-go//uses_data.dat"
+INTO TABLE uses
+FIELDS ENCLOSED BY "\"" TERMINATED BY ","
+;
 LOAD DATA LOCAL INFILE "C://CS331//cs331-project-2-clean-n-go//equipment_maintenance_data.dat"
 INTO TABLE equipment_maintenance
 FIELDS ENCLOSED BY "\"" TERMINATED BY ","

@@ -1,4 +1,4 @@
-"00000001","coin washing","Facility where clothes are washed without much help","10.02","8","2019-07-08 09:10:56","2019-07-08 09:25:11",
-"00000002","Dryers","machines that dry wet clothes","12.09","9","2019-09-04 08:12:56","2019-09-04 08:56:12",
-"00000003","drop-off","drop off clothes to be cleaned","23.45","7","2019-08-08 09:10:56","2019-08-08 12:10:56",
-"00000004","Dry Cleaning","cleaning process using special chemicals","50.01","6","2019-08-08 09:20:56","2019-08-08 01:11:23",
+"00000001","coin washing","Facility where clothes are washed without much help","10.02","8","1.5",
+"00000002","Dryers","machines that dry wet clothes","12.09","9", "1",
+"00000003","drop-off","drop off clothes to be cleaned","23.45","7","1.5",
+"00000004","Dry Cleaning","cleaning process using special chemicals","50.01","6","3.2",

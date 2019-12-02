@@ -22,6 +22,7 @@ CREATE TABLE customer(
        phoneNum     VARCHAR(20),
        currBalance  DECIMAL(14,2),
        creditCard   CHAR(16),
+	   signDate		DATE,
        CONSTRAINT contactInfoUnique UNIQUE (phoneNum, email),
        INDEX address (street, city, stateInits, zip),
        INDEX cName (fName, lName)
@@ -41,8 +42,7 @@ CREATE TABLE service(
        description  TINYTEXT,
        rate         DECIMAL(7, 2) UNSIGNED,
        satRating    TINYINT,
-	   startTime    TIMESTAMP,
-       endTime      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+	   servTime		TINYINT
        );
 
 /*
@@ -162,10 +162,13 @@ CREATE TABLE offers(
 CREATE TABLE uses(
        servID   MEDIUMINT UNSIGNED NOT NULL,
        iID      MEDIUMINT UNSIGNED NOT NULL,
+	   cID		MEDIUMINT UNSIGNED NOT NULL,
        qty      MEDIUMINT UNSIGNED,
-       PRIMARY KEY (servID, iID),
+	   useDate  DATE,
+       PRIMARY KEY (servID, iID, cID),
        FOREIGN KEY (servID) REFERENCES service(servID),
-       FOREIGN KEY (iID) REFERENCES item(iID)
+       FOREIGN KEY (iID) REFERENCES item(iID),
+	   FOREIGN KEY (cID) REFERENCES customer(custID)
 );
 
 /* a multi-valued attribute to track

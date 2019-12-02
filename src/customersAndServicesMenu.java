@@ -4,11 +4,20 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 
 public class customersAndServicesMenu {
-	Connection conn = null;
 	
 	public customersAndServicesMenu(Connection Conn) {
 		conn = Conn;
 	}
+   
+    private ServicesMenu service;
+    private AnalyzeBusinessMenu AB;
+    private CustomersMenu customers;
+	
+	public updatesMenu(Connection Conn) {
+   
+        service = new ServicesMenu(Conn);
+        AB = new AnalyzeBusinessMenu(Conn);
+        customers = new CustomersMenu(Conn);
 	
 	public void menu() {
 		Boolean inMenu = true;
@@ -21,15 +30,13 @@ public class customersAndServicesMenu {
 	        
 	        if(ch.length() > 0) {
 	        switch (ch.charAt(0)) {
-            case '1': 
+            case '1': AB.menu();
                 break;
-            case '2':
+            case '2': service.menu();
                 break;
-            case '3':
-                break;                  
-            case '4':
-                break;
-            case '5': inMenu = false;
+            case '3': customers.menu();
+                break;   
+            case '4': inMenu = false;
                 break;
             default:
                 System.out.println(" Not a valid option ");
@@ -57,10 +64,12 @@ public class customersAndServicesMenu {
         System.out.println("*************************************************************************************");
         System.out.println("                                *******************                                  ");
         System.out.println("                             Welcome to Clean-and-Go Shop                            ");
-        System.out.println("                                 Customers & Services                                ");
+        System.out.println("                               2. Customers & Services                               ");
         System.out.println("*************************************************************************************");
-        System.out.println("                             There is nothing to see here                            ");
-        System.out.println("                                  Press 1 to go back                                 ");
+        System.out.println("                         1. Analyze the progress of the business                     ");
+        System.out.println("                                    2. Services                                      ");
+        System.out.println("                                    3. Customers                                     ");
+        System.out.println("                                      4. Quit                                        ");
         System.out.println("*************************************************************************************");
     }
 }

@@ -35,6 +35,12 @@ WHERE YEAR(useDate) = 2019
 	AND MONTH(useDate) < 12
 GROUP BY MONTH(useDate);
 /*2c*/
+SELECT sName, SUM(S.rate * S.servTime)
+FROM service AS S, uses AS U
+WHERE S.servID = U.servID
+	AND YEAR(useDate) = 2019
+GROUP BY sName;
+
 
 
 /*
@@ -55,6 +61,8 @@ WHERE C.custID = U.cId
 	AND U.servID = S.servID
 	AND sName like "%coin washing%";
 /*3b*/
-SELECT Month(signDate), count(*)
-FROM customer
-GROUP BY MONTH(signDate);
+SELECT Month(useDate), count(*)
+FROM customer AS C, uses AS U
+WHERE C.custID = U.cID
+	AND YEAR(useDate) = 2019
+GROUP BY MONTH(useDate);

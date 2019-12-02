@@ -30,7 +30,7 @@ public class mainMenu {
             esMenu = new equipmentAndSuppliesMenu(conn);
             csMenu = new customersAndServicesMenu(conn);
             eMenu = new employeesMenu(conn);
-            uMenu = new updatesMenu(conn);
+            uMenu = new updatesMenu(conn, user, pass);
             
 
             boolean done = false;

@@ -102,7 +102,7 @@ CREATE TABLE consumable(
        safetyStockLvl    MEDIUMINT UNSIGNED,
        cUsage            TINYTEXT,
        PRIMARY KEY (consID),
-       FOREIGN KEY (consID) REFERENCES item(iID)
+       FOREIGN KEY (consID) REFERENCES item(iID) ON DELETE CASCADE
        );
 
 /* stores equipment in use as well as their
@@ -118,7 +118,7 @@ CREATE TABLE equipment(
        brand        VARCHAR(20),
        installationDate    DATE NOT NULL,
        removeDate   DATE NOT NULL,
-       FOREIGN KEY (iID) REFERENCES item(iID),
+       FOREIGN KEY (iID) REFERENCES item(iID) ON DELETE CASCADE,
        INDEX maintenanceSchedule (installationDate, removeDate)
        );
        
@@ -126,9 +126,9 @@ CREATE TABLE provides(
        custID       MEDIUMINT UNSIGNED NOT NULL,
        servID       MEDIUMINT UNSIGNED NOT NULL,
        eID          MEDIUMINT UNSIGNED NOT NULL,
-       FOREIGN KEY (custID) REFERENCES customer(custID),
-       FOREIGN KEY (servID) REFERENCES service(servID),
-       FOREIGN KEY (eID) REFERENCES employee(eID),
+       FOREIGN KEY (custID) REFERENCES customer(custID) ON DELETE CASCADE,
+       FOREIGN KEY (servID) REFERENCES service(servID) ON DELETE CASCADE,
+       FOREIGN KEY (eID) REFERENCES employee(eID) ON DELETE CASCADE,
        PRIMARY KEY (custID, servID, eID)
        );
 
@@ -141,8 +141,8 @@ CREATE TABLE purchased_from(
        transactionDate      DATE,
        deliveryDate         DATE,
        qty                  MEDIUMINT,
-       FOREIGN KEY (iID) REFERENCES item(iID),
-       FOREIGN KEY (suppID) REFERENCES supplier(suppID)
+       FOREIGN KEY (iID) REFERENCES item(iID) ON DELETE CASCADE,
+       FOREIGN KEY (suppID) REFERENCES supplier(suppID) ON DELETE CASCADE
        );
 
 /*
@@ -153,8 +153,8 @@ CREATE TABLE offers(
        iID           MEDIUMINT UNSIGNED NOT NULL,
        suppID           MEDIUMINT UNSIGNED NOT NULL,
        PRIMARY KEY (iID, suppID),
-       FOREIGN KEY (suppID) REFERENCES supplier(suppID),
-       FOREIGN KEY (iID) REFERENCES item(iID)
+       FOREIGN KEY (suppID) REFERENCES supplier(suppID) ON DELETE CASCADE,
+       FOREIGN KEY (iID) REFERENCES item(iID) ON DELETE CASCADE
        );
 
 /* tracks the items and amounts used
@@ -166,9 +166,9 @@ CREATE TABLE uses(
        qty      MEDIUMINT UNSIGNED,
 	   useDate  DATE,
        PRIMARY KEY (servID, iID, cID),
-       FOREIGN KEY (servID) REFERENCES service(servID),
-       FOREIGN KEY (iID) REFERENCES item(iID),
-	   FOREIGN KEY (cID) REFERENCES customer(custID)
+       FOREIGN KEY (servID) REFERENCES service(servID) ON DELETE CASCADE,
+       FOREIGN KEY (iID) REFERENCES item(iID) ON DELETE CASCADE,
+	   FOREIGN KEY (cID) REFERENCES customer(custID) ON DELETE CASCADE
 );
 
 /* a multi-valued attribute to track
@@ -180,17 +180,22 @@ CREATE TABLE equipment_maintenance (
        mDate                 DATE,
        cost                  DECIMAL(11,2),
        PRIMARY KEY (eID, iID, mDate),
-       FOREIGN KEY (eID) REFERENCES equipment(eID),
-       FOREIGN KEY (iID) REFERENCES item(iID)
+       FOREIGN KEY (eID) REFERENCES equipment(eID) ON DELETE CASCADE,
+       FOREIGN KEY (iID) REFERENCES item(iID) ON DELETE CASCADE
        );
 
 CREATE TABLE employee_schedule (
-       eID            MEDIUMINT UNSIGNED NOT NULL,
-       sDate          DATE NOT NULL,
-       hours          DECIMAL(4,2) NOT NULL,
-       PRIMARY KEY (eID, sDate),
-       FOREIGN KEY (eID) REFERENCES employee(eID)
-       );
+        eID         MEDIUMINT UNSIGNED NOT NULL,
+        MHours      DECIMAL(4,2) NOT NULL,
+        THours      DECIMAL(4,2) NOT NULL,
+        WHours      DECIMAL(4,2) NOT NULL,
+        TRHours     DECIMAL(4,2) NOT NULL,
+        FHours      DECIMAL(4,2) NOT NULL,
+        SAHours     DECIMAL(4,2) NOT NULL,
+        SUHours     DECIMAL(4,2) NOT NULL,
+        PRIMARY KEY (eID),
+        FOREIGN KEY (eID) REFERENCES employee(eID) ON DELETE CASCADE
+        );
 
 
 

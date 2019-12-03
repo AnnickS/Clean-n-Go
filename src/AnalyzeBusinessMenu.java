@@ -2,7 +2,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class AnalyzeBusinessMenu {
 	Connection conn = null;
@@ -11,9 +13,11 @@ public class AnalyzeBusinessMenu {
 		conn = Conn;
 	}
    
-	public void menu() {
+	public void menu() throws SQLException, IOException {
 		Boolean inMenu = true;
+		
 		while(inMenu) {
+			
 			printMenu();
 			System.out.print("Type in your option: ");
             System.out.flush();
@@ -22,9 +26,9 @@ public class AnalyzeBusinessMenu {
 	        
 	        if(ch.length() > 0) {
 	        switch (ch.charAt(0)) {
-            case '1': total_New_Customers(conn);
+            case '1': total_New_Customers();
                break;
-            case '2': total_Service_Transactions(conn);
+            case '2': total_Service_Transactions();
                break;
             case '3': inMenu = false;
                break;
@@ -50,7 +54,7 @@ public class AnalyzeBusinessMenu {
         return line;
     }
     
-    private static void total_New_Customers(Connection conn) throws SQLException, IOException {
+    private void total_New_Customers() throws SQLException, IOException {
     
         System.out.print("Enter year: ");
         System.out.flush();
@@ -63,32 +67,38 @@ public class AnalyzeBusinessMenu {
                        "WHERE YEAR(signDate) = " + input;
         ResultSet rset = stmt.executeQuery(query);
 
-        System.out.println("New customers in " + input ":");
-        System.out.println("------------------- ---\n");
-
-        while(rset.next()) {
-        	String output = rset.getString(1);
-        	System.out.println(output);  	
+        if(rset.next()) {
+        	System.out.println("New customers in " + input + ": " + rset.getString(1));
         }
+        System.out.println("\nPress enter to continue...");
+        readLine();
         stmt.close();
     }
     
-    private static void total_Service_Transactions(Connection conn) throws SQLException, IOException {
+    private void total_Service_Transactions() throws SQLException, IOException {
 
+    	System.out.print("Enter year: ");
+        System.out.flush();
+        String input1 = readLine();
+        System.out.println();
+        
+        System.out.print("Enter month: ");
+        System.out.flush();
+        String input2 = readLine();
+        System.out.println();
+        
         Statement stmt = conn.createStatement();
         String query = "SELECT count(*) " + 
                        "FROM uses " + 
-                       "WHERE YEAR(useDate) = 2019 " + 
-                       "AND MONTH(useDate) = 11";
+                       "WHERE YEAR(useDate) = " + input1 + 
+                       " AND MONTH(useDate) = " + input2 + "";
         ResultSet rset = stmt.executeQuery(query);
 
-        System.out.println("Services last Month:");
-        System.out.println("---------------- --\n");
-
-        while(rset.next()) {
-        	String output = rset.getString(1);
-        	System.out.println(output);  	
+        if(rset.next()) {
+        	System.out.println("Services in " + monthCalc(input2) + " " + input1 + ": " + rset.getString(1));
         }
+        System.out.println("\nPress enter to continue...");
+        readLine();
         stmt.close();
     }
     
@@ -100,8 +110,38 @@ public class AnalyzeBusinessMenu {
         System.out.println("                       1. Analyze the progress of the business                       ");
         System.out.println("*************************************************************************************");
         System.out.println("                           1. Total number of new customers                          ");
-        System.out.println("                        2. Total number of serice transactions                       ");
+        System.out.println("                        2. Total number of service transactions                      ");
         System.out.println("                                       3. Quit                                       ");        
         System.out.println("*************************************************************************************");
     }
+    
+    private static String monthCalc(String monthNumber){
+        if(monthNumber.equals("1")){
+           return "Jan";
+        }else if(monthNumber.equals("2")){
+           return "Feb";
+        }else if(monthNumber.equals("3")){
+           return "Mar";
+        }else if(monthNumber.equals("4")){
+           return "Apr";               
+        }else if(monthNumber.equals("5")){
+           return "May";
+        }else if(monthNumber.equals("6")){
+           return "Jun";
+        }else if(monthNumber.equals("7")){
+           return "Jul";
+        }else if(monthNumber.equals("8")){
+           return "Aug";
+        }else if(monthNumber.equals("9")){
+           return "Sep";
+        }else if(monthNumber.equals("10")){
+           return "Oct";
+        }else if(monthNumber.equals("11")){
+           return "Nov";
+        }else if(monthNumber.equals("12")){
+           return "Dec";
+        }else{
+           return"";
+        }
+     }
 }

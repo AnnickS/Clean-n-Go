@@ -2,24 +2,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class customersAndServicesMenu {
-	
-	public customersAndServicesMenu(Connection Conn) {
-		conn = Conn;
-	}
-   
-    private ServicesMenu service;
+	Connection conn = null;
+	private ServicesMenu service;
     private AnalyzeBusinessMenu AB;
     private CustomersMenu customers;
 	
-	public updatesMenu(Connection Conn) {
-   
-        service = new ServicesMenu(Conn);
+	public customersAndServicesMenu(Connection Conn) {
+		conn = Conn;
+		
+		service = new ServicesMenu(Conn);
         AB = new AnalyzeBusinessMenu(Conn);
         customers = new CustomersMenu(Conn);
-	
-	public void menu() {
+	}
+
+	public void menu() throws SQLException, IOException {
 		Boolean inMenu = true;
 		while(inMenu) {
 			printMenu();

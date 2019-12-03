@@ -2,7 +2,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class CustomersMenu {
 	Connection conn = null;
@@ -11,7 +13,7 @@ public class CustomersMenu {
 		conn = Conn;
 	}
    
-	public void menu() {
+	public void menu() throws SQLException, IOException {
 		Boolean inMenu = true;
 		while(inMenu) {
 			printMenu();
@@ -53,36 +55,36 @@ public class CustomersMenu {
     private static void customer_List(Connection conn) throws SQLException, IOException {
     
         System.out.println("Our services are:");
-        System.out.println("-----------------\n");
         Statement stmt = conn.createStatement();
         String query = "SELECT sName FROM service";
         ResultSet rset = stmt.executeQuery(query);
         while(rset.next()){
          String servName = rset.getString(1);
-         System.out.prinln(ServName);
+         System.out.println(servName);
          }
-        System.out.println("-----------------\n");
-        System.out.print("Type in your option: ");
+        
+        System.out.print("\nType in your option: ");
         System.out.flush();
 		  String input = readLine();
 	     System.out.println();
          
-        Statement stmt = conn.createStatement();
-        String query = "SELECT fName, lName " + 
+        stmt = conn.createStatement();
+        query = "SELECT fName, lName " + 
                        "FROM customer AS C, uses AS U, service AS S " + 
                        "WHERE C.custID = U.cID " + 
                        "AND U.servID = S.servID " + 
                        "AND sName like \"%" + input + "%\"";
-        ResultSet rset = stmt.executeQuery(query);
+        rset = stmt.executeQuery(query);
 
         System.out.println("Customers:");
-        System.out.println("----------\n");
 
         while(rset.next()) {
         	String custFName = rset.getString(1);
         	String custLName = rset.getString(2);
         	System.out.println(custFName + " " + custLName);  	
         }
+        System.out.println("\nPress enter to continue...");
+        readLine();
         stmt.close();
     }
     
@@ -97,19 +99,20 @@ public class CustomersMenu {
         String query = "SELECT MONTH(useDate), count(*) " + 
                        "FROM customer AS C, uses AS U " +
                        "WHERE C.custID = U.cID " +
-                       "YEAR(useDate) = " + input + 
+                       "AND YEAR(useDate) = " + input + 
                        " GROUP BY MONTH(useDate)";
         ResultSet rset = stmt.executeQuery(query);
 
-        System.out.println("Customers per month in" + input + ":");
-        System.out.println("-------------------\n");
-
+        System.out.println("Customers per month in " + input + ":");
+        
         while(rset.next()) {
         	String month = rset.getString(1);
          String monthName = monthCalc(month);
         	String CN = rset.getString(2);
         	System.out.println(monthName + " " + CN);  	
         }
+        System.out.println("\nPress enter to continue...");
+        readLine();
         stmt.close();
     }
     
@@ -125,30 +128,30 @@ public class CustomersMenu {
         System.out.println("*************************************************************************************");
     }
 
-    private static string monthCalc(string monthNumber){
-      if(monthNumber == "1"){
+    private static String monthCalc(String monthNumber){
+      if(monthNumber.equals("1")){
          return "Jan";
-      }else if(monthNumber == "2"){
+      }else if(monthNumber.equals("2")){
          return "Feb";
-      }else if(monthNumber == "3"){
+      }else if(monthNumber.equals("3")){
          return "Mar";
-      }else if(monthNumber == "4"){
+      }else if(monthNumber.equals("4")){
          return "Apr";               
-      }else if(monthNumber == "5"){
+      }else if(monthNumber.equals("5")){
          return "May";
-      }else if(monthNumber == "6"){
+      }else if(monthNumber.equals("6")){
          return "Jun";
-      }else if(monthNumber == "7"){
+      }else if(monthNumber.equals("7")){
          return "Jul";
-      }else if(monthNumber == "8"){
-         return "Aug";}
-      }else if(monthNumber == "9"){
+      }else if(monthNumber.equals("8")){
+         return "Aug";
+      }else if(monthNumber.equals("9")){
          return "Sep";
-      }else if(monthNumber == "10"){
+      }else if(monthNumber.equals("10")){
          return "Oct";
-      }else if(monthNumber == "11"){
-         return "Nov;
-      }else if(monthNumber == "12"){
+      }else if(monthNumber.equals("11")){
+         return "Nov";
+      }else if(monthNumber.equals("12")){
          return "Dec";
       }else{
          return"";

@@ -66,3 +66,8 @@ FROM customer AS C, uses AS U
 WHERE C.custID = U.cID
 	AND YEAR(useDate) = 2019
 GROUP BY MONTH(useDate);
+
+
+
+
+

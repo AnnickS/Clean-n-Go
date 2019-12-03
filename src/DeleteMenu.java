@@ -89,7 +89,7 @@ public class DeleteMenu {
 	
 	private void deleteEquipment() throws SQLException {
 		Boolean wrongInput = true;
-		CallableStatement delItem = conn.prepareCall("{call deleteServ(?, ?)}");
+		CallableStatement delItem = conn.prepareCall("{call deleteEquip(?, ?)}");
 		String ch;
 		System.out.print("Fields: ");
 		for(String i : equipmentFields) {
@@ -175,7 +175,7 @@ public class DeleteMenu {
 	
 	private void deleteCustomer() throws SQLException {
 		Boolean wrongInput = true;
-		CallableStatement delItem = conn.prepareCall("{call deleteServ(?, ?)}");
+		CallableStatement delItem = conn.prepareCall("{call deleteCust(?, ?)}");
 		String ch;
 		System.out.print("Fields: ");
 		for(String i : customerFields) {
@@ -217,7 +217,7 @@ public class DeleteMenu {
 	
 	private void deleteEmployee() throws SQLException {
 		Boolean wrongInput = true;
-		CallableStatement delItem = conn.prepareCall("{call deleteServ(?, ?)}");
+		CallableStatement delItem = conn.prepareCall("{call deleteEmpl(?, ?)}");
 		String ch;
 		System.out.print("Fields: ");
 		for(String i : employeeFields) {

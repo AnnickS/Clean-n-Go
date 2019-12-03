@@ -155,6 +155,6 @@ DROP PROCEDURE showCus;
 DROP PROCEDURE showEmp;
 
 CALL deleteServ('SName', 'drop-off');
-CALL deleteCust("fName", "\'John\'");
+CALL deleteCust('fName', '\'John\'');
 CALL deleteEquip('iID', '9');
 DELETE FROM customer WHERE fName = 'Gareth';
